@@ -1,0 +1,3 @@
+This is an app that demostrates the control scheme of an elevator. Upon launch, it asks you how many floors the elevator services, and thereafter it displays a list of available floors. Once any floors are selected, the elevator sets off in one direction, and continues in that direction while there are floors in the same direction. It continues to alternate until no more floors are selected.
+
+As to the architecture, the business logic is primariy contained in two classes, the ElevatorControlPresenter and the FloorConfigurationPresenter. These interact with their corresponding views to make sure the UI remains up to date.
