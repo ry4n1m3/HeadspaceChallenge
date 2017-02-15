@@ -1,6 +1,5 @@
 package com.ryanspore.ryansporeheadspace;
 
-import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 
 import java.util.HashSet;
@@ -15,25 +14,23 @@ public class ElevatorControlPresenter implements ElevatorButtonsAdapter.Delegate
     private Set<Integer> selectedFloors;
     private Integer movingDirection;
     private Integer currentFloor;
-    private ElevatorButtonsAdapter floorButtonsAdapter;
-    private Handler handler;
+    private ExecutionManager handler;
 
-    public ElevatorControlPresenter(Delegate delegate) {
+    public ElevatorControlPresenter(Delegate delegate, ExecutionManager handler) {
         this.delegate = delegate;
         selectedFloors = new HashSet<>();
-        handler = new Handler();
+        this.handler = handler;
         setMovingDirection(DIRECTION_STOPPED);
-    }
-
-    public void setFloorCount(int floorCount) {
-        floorButtonsAdapter = new ElevatorButtonsAdapter(floorCount, this);
-        delegate.setFloorButtonsAdapter(floorButtonsAdapter);
         currentFloor = 1;
         delegate.setCurrentFloor(currentFloor);
     }
 
     @Override
     public void addSelection(int floor) {
+        if(floor == currentFloor) {
+            delegate.clearSelection(floor);
+            return;
+        }
         selectedFloors.add(floor);
         if (movingDirection == DIRECTION_STOPPED) {
             setMovingDirection(currentFloor < floor ? DIRECTION_UP : DIRECTION_DOWN);
@@ -53,7 +50,7 @@ public class ElevatorControlPresenter implements ElevatorButtonsAdapter.Delegate
                 delegate.setCurrentFloor(currentFloor);
                 if (selectedFloors.contains(currentFloor)) {
                     selectedFloors.remove(currentFloor);
-                    floorButtonsAdapter.clearSelection(currentFloor);
+                    delegate.clearSelection(currentFloor);
                 }
                 if (anySelectedFloorsInDirection(movingDirection)) {
                     startMoving(500);
@@ -95,6 +92,10 @@ public class ElevatorControlPresenter implements ElevatorButtonsAdapter.Delegate
         }
     }
 
+    public interface ExecutionManager {
+        boolean postDelayed(Runnable r, long delayMillis);
+    }
+
     public interface Delegate {
         void setFloorButtonsAdapter(RecyclerView.Adapter floorButtonsAdapter);
 
@@ -105,5 +106,7 @@ public class ElevatorControlPresenter implements ElevatorButtonsAdapter.Delegate
         void showMovingDown();
 
         void showNotMoving();
+
+        void clearSelection(int floor);
     }
 }

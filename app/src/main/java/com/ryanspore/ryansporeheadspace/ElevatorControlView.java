@@ -3,6 +3,7 @@ package com.ryanspore.ryansporeheadspace;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
+import android.os.Handler;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
@@ -20,6 +21,7 @@ public class ElevatorControlView extends RelativeLayout
     private View downArrow;
     private RecyclerView floorButtons;
     private ElevatorControlPresenter presenter;
+    private ElevatorButtonsAdapter floorButtonsAdapter;
     private int floorCount;
 
     public ElevatorControlView(Context context) {
@@ -47,13 +49,14 @@ public class ElevatorControlView extends RelativeLayout
         downArrow = findViewById(R.id.down_arrow);
         floorButtons = (RecyclerView) findViewById(R.id.floor_buttons);
         floorButtons.setLayoutManager(new GridLayoutManager(getContext(), 3, VERTICAL, false));
-        presenter = new ElevatorControlPresenter(this);
+        presenter = new ElevatorControlPresenter(this, new ElevatorHandler());
     }
 
 
     public void setFloorCount(int floorCount) {
         this.floorCount = floorCount;
-        presenter.setFloorCount(floorCount);
+        floorButtonsAdapter = new ElevatorButtonsAdapter(floorCount, presenter);
+        setFloorButtonsAdapter(floorButtonsAdapter);
     }
 
     @Override
@@ -82,5 +85,15 @@ public class ElevatorControlView extends RelativeLayout
     public void showNotMoving() {
         upArrow.setVisibility(View.GONE);
         downArrow.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void clearSelection(int floor) {
+        floorButtonsAdapter.clearSelection(floor);
+    }
+
+    public static class ElevatorHandler extends Handler
+            implements ElevatorControlPresenter.ExecutionManager {
+
     }
 }
