@@ -15,7 +15,7 @@ public class ElevatorActivity extends AppCompatActivity implements FloorConfigur
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.elevator_control);
+        setContentView(R.layout.elevator_main);
         root = (ViewGroup) findViewById(R.id.elevator_control_root);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -36,7 +36,11 @@ public class ElevatorActivity extends AppCompatActivity implements FloorConfigur
     }
 
     private void showElevatorControl(int floorCount) {
-        // todo
+        LayoutInflater layoutInflater = LayoutInflater.from(this);
+        ElevatorControlView inflated = (ElevatorControlView) layoutInflater.inflate(R.layout.elevator_control, root, false);
+        inflated.setFloorCount(floorCount);
+        root.removeAllViews();
+        root.addView(inflated);
     }
 
     @Override

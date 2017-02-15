@@ -1,7 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.ryanspore.ryansporeheadspace.ElevatorControlView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/elevator_control_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.ryanspore.ryansporeheadspace.ElevatorActivity" />
+    tools:context="com.ryanspore.ryansporeheadspace.ElevatorActivity">
+
+    <LinearLayout
+        android:padding="10dp"
+        android:id="@+id/elevator_display"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/current_floor" />
+
+        <TextView
+            android:id="@+id/current_floor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="50dp"
+            android:layout_marginTop="50dp"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/up_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="^" />
+
+        <TextView
+            android:id="@+id/down_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="v" />
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/floor_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/elevator_display" />
+
+</com.ryanspore.ryansporeheadspace.ElevatorControlView>

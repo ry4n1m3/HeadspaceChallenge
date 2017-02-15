@@ -3,4 +3,5 @@
     <string name="floor_configuration_prompt">Enter the number of floors this elevator is servicing</string>
     <string name="floor_configuration_hint">15</string>
     <string name="submit_floor_count">Configure</string>
+    <string name="current_floor">Current floor:</string>
 </resources>
